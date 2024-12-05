@@ -2,6 +2,8 @@ import { getData } from "./utils.js";
 
 const productSection = document.querySelector(".product_section");
 const categoryUl = document.querySelector(".category_list");
+const sortBy = document.querySelector("#sort_by");
+
 
 categoryUl.addEventListener("click", function (event) {
   if (event.target.tagName === "LI") {
@@ -10,11 +12,23 @@ categoryUl.addEventListener("click", function (event) {
   }
 });
 
+// sortBy.addEventListener("change", displayProducts(sortBy));
+
 const displayProducts = async (filterBy) => {
   const allProducts = await getData();
   //   console.log(allProducts);
+  let compare;
+
+//   if (sortBy.value === "lowest") {
+//     compare = (a, b) => a.price - b.price
+// } else if (sortBy.value === "highest") {
+//     compare = (a, b) => b.price - a.price
+// }
 
   const productList = allProducts
+    .sort(sortBy.value === "highest" ? (a, b) => b.price - a.price
+        : sortBy.value === "lowest" ? (a, b) => a.price - b.price
+        : NaN)
     .filter(product => filterBy !== "all" ? product.category === filterBy : true)
     .map(
       (product) =>
@@ -35,4 +49,4 @@ const displayProducts = async (filterBy) => {
   console.log(productList);
 };
 
-displayProducts();
+displayProducts("all");
