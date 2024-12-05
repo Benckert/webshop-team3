@@ -1,13 +1,23 @@
 import { getData } from "./utils.js";
 
 const productSection = document.querySelector(".product_section");
+const categoryUl = document.querySelector(".category_list");
 
+categoryUl.addEventListener("click", function (event) {
+  if (event.target.tagName === "LI") {
+    let filterBy = event.target.textContent.toLowerCase();
+    displayProducts(filterBy);
+  }
+});
 
-const displayProducts = async () => {
-    const allProducts = await getData(); 
-    console.log(allProducts);
+const displayProducts = async (filterBy) => {
+  const allProducts = await getData();
+  //   console.log(allProducts);
 
-    const productList = allProducts.map(product =>
+  const productList = allProducts
+    .filter(product => filterBy !== "all" ? product.category === filterBy : true)
+    .map(
+      (product) =>
         `
         <article class="product">
             <img src="${product.image}" alt="">
@@ -18,9 +28,11 @@ const displayProducts = async () => {
                 </div>
                 <button class="product_buy">Varukorg</button>
             </div>
-        </article>`)
-        .join("");
-    productSection.innerHTML = productList;
-}
+        </article>`
+    )
+    .join("");
+  productSection.innerHTML = productList;
+  console.log(productList);
+};
 
 displayProducts();
