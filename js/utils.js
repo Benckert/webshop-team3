@@ -12,3 +12,5 @@ async function getData(data) {
     console.error(error.message);
   }
 }
+
+export { getData }
