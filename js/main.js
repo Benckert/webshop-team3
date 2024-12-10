@@ -1,6 +1,6 @@
 import { getData } from "./utils.js";
 
-const productSection = document.querySelector(".product_section");
+const productSection = document.querySelector(".product-section");
 const categoryUl = document.querySelector(".category_list");
 const sortBy = document.querySelector("#sort_by");
 
@@ -20,10 +20,8 @@ const displayProducts = async () => {
           <img src="${product.image}" alt="Product image">
         </div>
         <div class="product__content">
-          <div class="product__text">
-            <h2 class="product__title">${product.title}</h2>
-            <p class="product__price">$${product.price}</p>
-          </div>
+          <h2 class="product__title">${product.title}</h2>
+          <p class="product__price">$${product.price}</p>
           <button class="product__shopping-cart">Varukorg</button>
         </div>
       </article>
