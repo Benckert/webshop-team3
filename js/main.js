@@ -1,6 +1,6 @@
 import { getData } from "./utils.js";
 
-const productSection = document.querySelector(".product_section");
+const productSection = document.querySelector(".product-section");
 const categoryUl = document.querySelector(".category_list");
 const sortBy = document.querySelector("#sort_by");
 
@@ -16,14 +16,14 @@ const displayProducts = async () => {
     .map(product =>
       `
       <article class="product">
-      <img src="${product.image}" alt="">
-      <div class="product_div">
-      <div class="product_text">
-      <h2 class="product_name">${product.title}</h2>
-      <p class="product_price">$${product.price}</p>
-      </div>
-      <button class="product_buy">Varukorg</button>
-      </div>
+        <div class="product__img">
+          <img src="${product.image}" alt="Product image">
+        </div>
+        <div class="product__content">
+          <h2 class="product__title">${product.title}</h2>
+          <p class="product__price">$${product.price}</p>
+          <button class="product__shopping-cart">Varukorg</button>
+        </div>
       </article>
       `)
     .join("");
