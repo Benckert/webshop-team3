@@ -47,7 +47,7 @@ main {
 .product {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     width: 230px;
     height: 360px;
@@ -72,7 +72,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
     padding: 0 1rem;
     width: 100%;
     flex: 1;
@@ -82,6 +82,12 @@ main {
     font-size: inherit;
     text-align: center;
     margin-top: auto;
+    margin-bottom: auto;
+}
+
+.product__item-to-cart {
+    display: flex;
+    justify-content: space-between;
 }
 
 .product__text {
