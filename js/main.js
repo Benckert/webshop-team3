@@ -17,7 +17,7 @@ let cart = [];
 async function loadProducts() {
   allProducts = await getData();
   mapProducts();
-  displayProducts();
+  renderProducts();
 }
 
 function mapProducts() {
@@ -25,12 +25,11 @@ function mapProducts() {
     id: item.id,
     title: item.title,
     price: item.price,
-    image: item.image,
-    amount: 1
+    image: item.image
   }));
 }
 
-function displayProducts() {
+function renderProducts() {
   const productCards = allProducts
   .sort(compare)
   .filter(product => filterBy !== "all" ? product.category === filterBy : true)
@@ -55,20 +54,10 @@ function displayProducts() {
   productSection.innerHTML = productCards;
 }
 
-function addToCart(index, productToAdd) {
-  if (cart.includes(productToAdd)) {
-    let cartIndex = cart.findIndex(item => item.id === index);
-    cart[cartIndex].amount++;
-    cart[cartIndex].price += cart[cartIndex].price;
-  } else {
-    cart.push(productToAdd);
-  }
-}
-
 categoryUl.addEventListener("click", function (e) {
   if (e.target.tagName === "LI") {
     filterBy = e.target.textContent.toLowerCase();
-    displayProducts();
+    renderProducts();
   }
 });
 
@@ -77,14 +66,16 @@ sortBy.addEventListener("change", function () {
           : sortBy.value === "lowest" ? (a, b) => a.price - b.price
           : () => NaN;
 
-displayProducts();
+renderProducts();
 });
 
 productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const index = parseInt(e.target.id.slice(-1));
     const productToAdd = listOfProducts[index - 1];
-    addToCart(index, productToAdd);
+
+    cart.push(productToAdd);
+    cart.sort((a, b) => a.id - b.id);
   }
   console.log("cart: ", cart)
 });
