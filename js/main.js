@@ -11,79 +11,82 @@ let compare;
 // let compare = () => NaN;
 
 let allProducts;
+let listOfProducts;
+let cart = [];
 
-const loadProducts = async () => {
+async function loadProducts() {
   allProducts = await getData();
+  mapProducts();
   displayProducts();
-  addListeners();
 }
 
-// const displayProducts = async () => {
-const displayProducts = () => {
-  // const allProducts = await getData();
+function mapProducts() {
+  listOfProducts = allProducts.map(item => ({
+    id: item.id,
+    title: item.title,
+    price: item.price,
+    image: item.image,
+    amount: 1
+  }));
+}
 
-  const productList = allProducts
+function displayProducts() {
+  const productCards = allProducts
   .sort(compare)
   .filter(product => filterBy !== "all" ? product.category === filterBy : true)
   .map(product =>
     `
-    <article class="product">
+    <article id="item-${product.id}" class="product">
     <div class="product__img">
-        <img src="${product.image}" alt="Product image">
-      </div>
-      <div class="product__content">
-        <h2 class="product__title">${product.title}</h2>
-        <div class="product__item-to-cart">
-          <p class="product__price">$${product.price}</p>
-          <div id="item-${product.id}" class="product__cart-buttons">
-            <button class="product__remove-from-cart" type="button">-</button>
-            <span class="product__count">0</span>
-            <button class="product__add-to-cart" type="button">+</button>
-          </div>
-        </div>
-      </div>
+    <img src="${product.image}" alt="Product image">
+    </div>
+    <div class="product__content">
+    <h2 class="product__title">${product.title}</h2>
+    <div class="product__item-to-cart">
+    <p class="product__price">$${product.price}</p>
+    <p class="product__rating">${product.rating.rate} / 5</p>
+    </div>
+    <button id="cartBtn-${product.id}" class="product__add-to-cart">Add to cart</button>
+    </div>
     </article>
     `)
   .join("");
-  productSection.innerHTML = productList;
-};
 
-//
-
-function addListeners() {
-  allProducts.forEach(element => {
-    document.getElementById(`item-${element.id}`).addEventListener("click", count);
-  })
-
-  // document.getElementsByClassName("product__remove-from-cart")
+  productSection.innerHTML = productCards;
 }
 
-function count(e) {
-  if (e.target.classList.contains("product__remove-from-cart")) {
-    if (parseInt(e.target.nextElementSibling.textContent) > 0)
-      e.target.nextElementSibling.textContent--
-  }
-  if (e.target.classList.contains("product__add-to-cart")) {
-    e.target.previousElementSibling.textContent++
+function addToCart(index, productToAdd) {
+  if (cart.includes(productToAdd)) {
+    let cartIndex = cart.findIndex(item => item.id === index);
+    cart[cartIndex].amount++;
+    cart[cartIndex].price += cart[cartIndex].price;
+  } else {
+    cart.push(productToAdd);
   }
 }
 
-//
-
-categoryUl.addEventListener("click", function (event) {
-  if (event.target.tagName === "LI") {
-    filterBy = event.target.textContent.toLowerCase();
+categoryUl.addEventListener("click", function (e) {
+  if (e.target.tagName === "LI") {
+    filterBy = e.target.textContent.toLowerCase();
     displayProducts();
   }
 });
 
 sortBy.addEventListener("change", function () {
-compare = sortBy.value === "highest" ? (a, b) => b.price - a.price
-        : sortBy.value === "lowest" ? (a, b) => a.price - b.price
-        : () => NaN;
+  compare = sortBy.value === "highest" ? (a, b) => b.price - a.price
+          : sortBy.value === "lowest" ? (a, b) => a.price - b.price
+          : () => NaN;
 
 displayProducts();
 });
 
+productSection.addEventListener("click", function (e) {
+  if (e.target.tagName === "BUTTON") {
+    const index = parseInt(e.target.id.slice(-1));
+    const productToAdd = listOfProducts[index - 1];
+    addToCart(index, productToAdd);
+  }
+  console.log("cart: ", cart)
+});
+
 loadProducts();
-// displayProducts();

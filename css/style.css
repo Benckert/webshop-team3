@@ -90,16 +90,16 @@ main {
     justify-content: space-between;
 }
 
-.product__text {
+/* .product__text {
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex: 1;
-}
+} */
 
-.product__price {
+/* .product__price {
     margin-top: auto;
-}
+} */
 
 /* MEDIA QUERIES */
 
