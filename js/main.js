@@ -36,17 +36,17 @@ function renderProducts() {
   .map(product =>
     `
     <article id="item-${product.id}" class="product">
-    <div class="product__img">
-    <img src="${product.image}" alt="Product image">
-    </div>
-    <div class="product__content">
-    <h2 class="product__title">${product.title}</h2>
-    <div class="product__item-to-cart">
-    <p class="product__price">$${product.price}</p>
-    <p class="product__rating">${product.rating.rate} / 5</p>
-    </div>
-    <button id="cartBtn-${product.id}" class="product__add-to-cart">Add to cart</button>
-    </div>
+      <div class="product__img">
+        <img src="${product.image}" alt="Product image">
+      </div>
+      <div class="product__content">
+        <h2 class="product__title">${product.title}</h2>
+        <div class="product__item-to-cart">
+          <p class="product__price">$${product.price}</p>
+          <p class="product__rating">${product.rating.rate} / 5</p>
+        </div>
+      <button id="cartBtn-${product.id}" class="product__add-to-cart">Add to cart</button>
+      </div>
     </article>
     `)
   .join("");
