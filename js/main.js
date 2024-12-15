@@ -6,7 +6,7 @@ const sortBy = document.querySelector("#sort_by");
 
 const shoppingCart = document.getElementById("shopping-cart");
 const shoppingCartBtn = document.getElementById("shopping-cart-button");
-const shoppingCartOverlay = document.getElementById("overlay");
+
 
 sortBy.value = "none";
 
@@ -34,22 +34,20 @@ function mapProducts() {
 }
 
 function renderProducts() {
-  console.log("typeOf allProducts", typeof allProducts)
-  console.log("allProducts: ", allProducts)
   const productsHTML = allProducts
   .sort(compare)
   .filter(product => filterBy !== "all" ? product.category === filterBy : true)
   .map(product =>
     `
     <article id="item-${product.id}" class="product">
-      <div class="product__img">
-        <img src="${product.image}" alt="Product image">
+      <div class="product__img-container">
+        <img class="product__img" src="${product.image}" alt="Product image">
       </div>
       <div class="product__content">
         <h2 class="product__title">${product.title}</h2>
         <div class="product__item-to-cart">
-          <p class="product__price">$${product.price}</p>
-          <p class="product__rating">${product.rating.rate} / 5</p>
+          <p>$${product.price}</p>
+          <p>${product.rating.rate} / 5</p>
         </div>
       <button id="cartBtn-${product.id}" class="product__add-to-cart">Add to cart</button>
       </div>
@@ -61,33 +59,22 @@ function renderProducts() {
 }
 
 function renderShoppingCart() {
-  console.log("renderShoppinCart")
-  let cartHTML;
+  let cartHTML = cart
+  .sort((a, b) => a.id - b.id)
+  .map(product =>
+    `
+    <article class="shopping-cart__product">
+      <div class="shopping-cart__img-container">
+        <img class="shopping-cart__img" src="${product.image}" alt="Product image">
+      </div>
+      <div class="shopping-cart__info">
+        <h2>${product.title}</h2>
+        <p>$${product.price}</p>
+      </div>
+    </article>
+    `)
+  .join("");
 
-  cart.sort((a, b) => a.id - b.id);
-  console.log("typeOf cart ", typeof cart)
-  console.log("cart: ", cart)
-
-  cart.forEach(item => {
-    console.log("typeOf item", typeof item)
-    cartHTML = item
-    .map(product =>
-      `
-      <article>
-        <div>
-          <img src="${product.image}" alt="Product image">
-        </div>
-        <div>
-          <h2>${product.title}<h2>
-          <p>${product.price}</p>
-        </div>
-      </article>
-      `);
-
-    console.log(cartHTML)
-  });
-
-  // cartHTML.join("");
   shoppingCart.innerHTML = cartHTML;
 }
 
@@ -108,21 +95,19 @@ renderProducts();
 
 productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
-    const index = parseInt(e.target.id.slice(-1));
+    const index = parseInt(e.target.id.slice(8));
     const productToAdd = listOfProducts[index - 1];
-    // console.log(productToAdd)
 
     cart.push(productToAdd);
   }
-  // console.log("cart: ", cart)
 });
 
 shoppingCartBtn.addEventListener("click", function () {
   renderShoppingCart();
-  shoppingCartOverlay.style.display = "block";
+  shoppingCart.style.display = "block";
 });
 
-shoppingCartOverlay.addEventListener("click", function (e) {
+shoppingCart.addEventListener("click", function (e) {
   console.log(e)
 })
 
