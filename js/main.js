@@ -20,8 +20,10 @@ let cart = [];
 
 async function loadProducts() {
   allProducts = await getData();
-  mapProducts();
-  renderProducts();
+  if (allProducts) {
+    mapProducts();
+    renderProducts();
+  }
 }
 
 function mapProducts() {
@@ -68,8 +70,8 @@ function renderShoppingCart() {
         <img class="shopping-cart__img" src="${product.image}" alt="Product image">
       </div>
       <div class="shopping-cart__info">
-        <h2>${product.title}</h2>
-        <p>$${product.price}</p>
+        <h2 class="shopping-cart__title">${product.title}</h2>
+        <p class="shopping-cart__price">$${product.price}</p>
       </div>
     </article>
     `)
