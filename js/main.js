@@ -92,7 +92,7 @@ sortBy.addEventListener("change", function () {
           : sortBy.value === "lowest" ? (a, b) => a.price - b.price
           : () => NaN;
 
-renderProducts();
+  renderProducts();
 });
 
 productSection.addEventListener("click", function (e) {
@@ -105,8 +105,12 @@ productSection.addEventListener("click", function (e) {
 });
 
 shoppingCartBtn.addEventListener("click", function () {
-  renderShoppingCart();
-  shoppingCart.style.display = "block";
+  if (cart.length > 0) {
+    renderShoppingCart();
+    document.getElementById("header").style.filter = "blur(5px)";
+    document.getElementById("main").style.filter = "blur(5px)";
+    shoppingCart.style.display = "block";
+  }
 });
 
 shoppingCart.addEventListener("click", function (e) {
