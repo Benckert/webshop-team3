@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <header>
+    <header id="header">
         <nav class="category_nav">
             <ul class="category_list">
                 <li id="category_all">All</li>
@@ -34,17 +34,24 @@
             </ul>
         </nav>
     </header>
-    <main>
+    <main id="main">
         <div class="container-buttons">
             <select name="Sort by" id="sort_by">
                 <option value="none" selected>Sort by</option>
                 <option value="lowest">Lowest price</option>
                 <option value="highest">Highest price</option>
             </select>
-            <button class="shopping_cart" type="button">Varukorg</button>
+            <button id="shopping-cart-button" class="shopping_cart" type="button">Varukorg</button>
         </div>
         <section class="product-section"></section>
     </main>
+    <div id="shopping-cart">
+        <div class="shopping-cart__header">
+            <span>Shopping cart</span>
+            <button id="close-cart" type="button">X</button>
+        </div>
+        <div id="shopping-cart-items"></div>
+    </div>
 </body>
 
 </html>
