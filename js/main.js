@@ -6,33 +6,21 @@ const sortBy = document.querySelector("#sort_by");
 
 const shoppingCart = document.getElementById("shopping-cart");
 const shoppingCartBtn = document.getElementById("shopping-cart-button");
-
+const shoppingCartItems = document.getElementById("shopping-cart-items");
 
 sortBy.value = "none";
 
 let filterBy = "all";
 let compare;
-// let compare = () => NaN;
 
 let allProducts;
-let listOfProducts;
 let cart = [];
 
 async function loadProducts() {
   allProducts = await getData();
   if (allProducts) {
-    mapProducts();
     renderProducts();
   }
-}
-
-function mapProducts() {
-  listOfProducts = allProducts.map(item => ({
-    id: item.id,
-    title: item.title,
-    price: item.price,
-    image: item.image
-  }));
 }
 
 function renderProducts() {
@@ -77,7 +65,19 @@ function renderShoppingCart() {
     `)
   .join("");
 
-  shoppingCart.innerHTML = cartHTML;
+  shoppingCartItems.innerHTML = cartHTML;
+}
+
+function showShoppingCart() {
+  document.getElementById("header").style.filter = "blur(5px)";
+  document.getElementById("main").style.filter = "blur(5px)";
+  shoppingCart.style.display = "flex";
+}
+
+function hideShoppingCart() {
+  document.getElementById("header").style.filter = "blur(0px)";
+  document.getElementById("main").style.filter = "blur(0px)";
+  shoppingCart.style.display = "none";
 }
 
 categoryUl.addEventListener("click", function (e) {
@@ -98,23 +98,24 @@ sortBy.addEventListener("change", function () {
 productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const index = parseInt(e.target.id.slice(8));
-    const productToAdd = listOfProducts[index - 1];
+    const productToAdd = allProducts[index - 1];
 
     cart.push(productToAdd);
+    renderShoppingCart();
   }
 });
 
 shoppingCartBtn.addEventListener("click", function () {
   if (cart.length > 0) {
-    renderShoppingCart();
-    document.getElementById("header").style.filter = "blur(5px)";
-    document.getElementById("main").style.filter = "blur(5px)";
-    shoppingCart.style.display = "block";
+    // renderShoppingCart();
+    showShoppingCart();
   }
 });
 
 shoppingCart.addEventListener("click", function (e) {
-  console.log(e)
+  if (e.target.id === "close-cart") {
+    hideShoppingCart();
+  }
 })
 
 loadProducts();
