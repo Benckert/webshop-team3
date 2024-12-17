@@ -86,6 +86,10 @@ function renderShoppingCart() {
   .join("");
 
   shoppingCartItems.innerHTML = cartHTML;
+
+  const totalSum = document.querySelector('.total_sum');
+  const sum = cart.reduce((sum, product) => sum + product.price , 0);
+  totalSum.textContent = Number(sum).toFixed(2);
 }
 
 function showShoppingCart() {

@@ -322,6 +322,12 @@ font-weight: 700;
     opacity: 0.9;
 }
 
+footer{
+    margin-top: 50px;
+    background-color: rgb(209, 190, 211);
+    height: 80px;
+}
+
 /* MEDIA QUERIES */
 
 @media (width >= 508px) {
