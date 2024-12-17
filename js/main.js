@@ -8,7 +8,7 @@ const shoppingCart = document.getElementById("shopping-cart");
 const shoppingCartBtn = document.getElementById("shopping-cart-button");
 const shoppingCartItems = document.getElementById("shopping-cart-items");
 
-
+const shoppingCartQuantity = document.getElementById('items_number');
 
 sortBy.value = "none";
 
@@ -123,8 +123,10 @@ productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const index = parseInt(e.target.id.slice(8));
     const productToAdd = allProducts[index - 1];
+    console.log(productToAdd)
 
     cart.push(productToAdd);
+    shoppingCartQuantity.textContent = cart.length;
     renderShoppingCart();
   }
 });
