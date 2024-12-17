@@ -190,10 +190,12 @@ display: flex;
 align-items: center;
 font-size: 1rem;
 font-weight: 700;
+pointer-events: none;
 }
 
 .product__add-to-cart img{
    width: 35px;
+   pointer-events: none;
 }
 
 #shopping-cart {
