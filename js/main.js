@@ -78,7 +78,7 @@ function renderShoppingCart() {
         <div class="shopping-cart__right">
           <p class="shopping-cart__price">$${product.price}</p>
           <div class="shopping-cart__add">
-            <p id="minus">-</p><p>1</p><p id="plus">+</p>
+            <p id="minus">-</p><p>${product.quantity}</p><p id="plus">+</p>
           </div>
         </div>
     </article>
@@ -123,10 +123,22 @@ productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const index = parseInt(e.target.id.slice(8));
     const productToAdd = allProducts[index - 1];
+  
     console.log(productToAdd)
 
-    cart.push(productToAdd);
-    shoppingCartQuantity.textContent = cart.length;
+    const productData = cart.find(product => product.id === Number(index));
+    // const productExists = allProducts.find(item => item.id === Number(index));
+    console.log("produkt", productData)
+
+    if (productData){
+      productToAdd.quantity ++;
+  } else{
+      productToAdd.quantity = 1;
+      cart.push(productToAdd);
+      // allProducts.push(produktData)
+  }
+    console.log(cart)
+    shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
     renderShoppingCart();
   }
 });
