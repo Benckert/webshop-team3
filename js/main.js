@@ -71,15 +71,25 @@ function renderShoppingCart() {
       <div class="shopping-cart__img-container">
         <img class="shopping-cart__img" src="${product.image}" alt="Product image">
       </div>
-      <div class="shopping-cart__info">
-        <h2 class="shopping-cart__title">${product.title}</h2>
-        <p class="shopping-cart__price">$${product.price}</p>
-      </div>
+      
+        <div class="shopping-cart__info">
+          <h2 class="shopping-cart__title">${product.title}</h2>
+        </div>
+        <div class="shopping-cart__right">
+          <p class="shopping-cart__price">$${product.price}</p>
+          <div class="shopping-cart__add">
+            <p id="minus">-</p><p>1</p><p id="plus">+</p>
+          </div>
+        </div>
     </article>
     `)
   .join("");
 
   shoppingCartItems.innerHTML = cartHTML;
+
+  const totalSum = document.querySelector('.total_sum');
+  const sum = cart.reduce((sum, product) => sum + product.price , 0);
+  totalSum.textContent = Number(sum).toFixed(2);
 }
 
 function showShoppingCart() {
