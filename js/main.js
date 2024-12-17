@@ -8,6 +8,8 @@ const shoppingCart = document.getElementById("shopping-cart");
 const shoppingCartBtn = document.getElementById("shopping-cart-button");
 const shoppingCartItems = document.getElementById("shopping-cart-items");
 
+
+
 sortBy.value = "none";
 
 let filterBy = "all";
@@ -39,13 +41,25 @@ function renderProducts() {
           <p>$${product.price}</p>
           <p>${product.rating.rate} / 5</p>
         </div>
-      <button id="cartBtn-${product.id}" class="product__add-to-cart">Add to cart</button>
+      <button id="cartBtn-${product.id}" class="product__add-to-cart hidden"><p>Add</p><img src="img/shopping-bag-add-svgrepo-com.svg" alt=""></button>
       </div>
     </article>
     `)
   .join("");
 
   productSection.innerHTML = productsHTML;
+
+  const productCard = document.querySelectorAll('.product');
+
+productCard.forEach(card => {
+  const productBtn = card.querySelector('.product__add-to-cart');
+  card.addEventListener('mouseover', function() {
+    productBtn.classList.remove('hidden')
+  })
+  card.addEventListener('mouseout', function() {
+    productBtn.classList.add('hidden')
+  })
+});
 }
 
 function renderShoppingCart() {
