@@ -76,7 +76,7 @@ function renderShoppingCart() {
           <h2 class="shopping-cart__title">${product.title}</h2>
         </div>
         <div class="shopping-cart__right">
-          <p class="shopping-cart__price">$${product.price * product.quantity}</p>
+          <p class="shopping-cart__price">$${(product.price * product.quantity).toFixed(2)}</p>
           <div class="shopping-cart__add" data-id="${product.id}">
             <p id="minus">-</p><p>${product.quantity}</p><p id="plus">+</p>
           </div>

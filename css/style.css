@@ -324,11 +324,11 @@ pointer-events: none;
     opacity: 0.9;
 }
 
-footer{
+/* footer{
     margin-top: 50px;
     background-color: rgb(209, 190, 211);
-    height: 80px;
-}
+    height: 200px;
+} */
 
 /* MEDIA QUERIES */
 
