@@ -119,12 +119,25 @@ sortBy.addEventListener("change", function () {
   renderProducts();
 });
 
+function loadLocalStorage() {
+  const savedCart = localStorage.getItem("shoppingCart");
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    renderShoppingCart();
+  }
+}
+
+function saveLocalStorage() {
+  localStorage.setItem("shoppingCart", JSON.stringify(cart));
+}
+
 productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const index = parseInt(e.target.id.slice(8));
     const productToAdd = allProducts[index - 1];
 
     cart.push(productToAdd);
+    saveLocalStorage();
     renderShoppingCart();
   }
 });
@@ -142,4 +155,5 @@ shoppingCart.addEventListener("click", function (e) {
   }
 })
 
+loadLocalStorage();
 loadProducts();
