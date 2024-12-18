@@ -8,7 +8,7 @@ const shoppingCart = document.getElementById("shopping-cart");
 const shoppingCartBtn = document.getElementById("shopping-cart-button");
 const shoppingCartItems = document.getElementById("shopping-cart-items");
 
-
+const shoppingCartQuantity = document.getElementById('items_number');
 
 sortBy.value = "none";
 
@@ -76,9 +76,9 @@ function renderShoppingCart() {
           <h2 class="shopping-cart__title">${product.title}</h2>
         </div>
         <div class="shopping-cart__right">
-          <p class="shopping-cart__price">$${product.price}</p>
-          <div class="shopping-cart__add">
-            <p id="minus">-</p><p>1</p><p id="plus">+</p>
+          <p class="shopping-cart__price">$${product.price * product.quantity}</p>
+          <div class="shopping-cart__add" data-id="${product.id}">
+            <p id="minus">-</p><p>${product.quantity}</p><p id="plus">+</p>
           </div>
         </div>
     </article>
@@ -88,8 +88,11 @@ function renderShoppingCart() {
   shoppingCartItems.innerHTML = cartHTML;
 
   const totalSum = document.querySelector('.total_sum');
-  const sum = cart.reduce((sum, product) => sum + product.price , 0);
+  const sum = cart.reduce((sum, product) => sum + (product.price * product.quantity), 0);
   totalSum.textContent = Number(sum).toFixed(2);
+
+  const updateProduct = document.querySelectorAll('.shopping-cart__add');
+  updateBasket(updateProduct)
 }
 
 function showShoppingCart() {
@@ -123,11 +126,50 @@ productSection.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const index = parseInt(e.target.id.slice(8));
     const productToAdd = allProducts[index - 1];
+  
+    console.log(productToAdd)
 
-    cart.push(productToAdd);
+    const productData = cart.find(product => product.id === Number(index));
+    console.log("produkt", productData)
+
+    if (productData){
+      productToAdd.quantity ++;
+  } else{
+      productToAdd.quantity = 1;
+      cart.push(productToAdd);
+  }
+    console.log(cart)
+    shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
     renderShoppingCart();
   }
 });
+
+function updateBasket(updateProduct){
+  updateProduct.forEach(btn => {
+      btn.addEventListener('click', function(e){
+          if (e.target.textContent == "+"){
+              const productId = btn.getAttribute('data-id');
+              const productData = cart.find(product => product.id === Number(productId));
+              console.log(productId)
+              console.log(productData)
+              productData.quantity ++;
+              shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
+              renderShoppingCart()
+          }
+          if (e.target.textContent == "-"){
+              const productId = btn.getAttribute('data-id');
+              const productData = cart.find(product => product.id === Number(productId));
+              productData.quantity --;
+              shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
+              if (productData.quantity === 0){
+                  cart.splice(cart.indexOf(productData), 1)
+              }
+              renderShoppingCart()
+          }
+          console.log(cart)
+      })
+  });
+}
 
 shoppingCartBtn.addEventListener("click", function () {
   if (cart.length > 0) {
