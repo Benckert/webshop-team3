@@ -439,6 +439,6 @@ main {
 
 @media (width >= 1246px) {
   .product-section {
-    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
 }
