@@ -127,7 +127,7 @@ sortBy.addEventListener("change", function () {
   gtag('event', 'change_sortBy', {
     'event_category': 'sort products',
     'event_label': 'changes sorting of products',
-    'value': `${sortBy.value}`,
+    'value': 1,
     'debug_mode': true
   });
 });
