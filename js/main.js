@@ -152,9 +152,15 @@ productSection.addEventListener("click", function (e) {
     shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
     renderShoppingCart();
 
-    gtag('event', 'add-to-cart', {
-      'event_category': 'add to cart',
-      'event_label': 'add product to cart',
+    // gtag('event', 'add_to_cart', {
+    //   'event_category': 'add to cart',
+    //   'event_label': 'add product to cart',
+    //   'value': 1,
+    //   'debug_mode': true
+    // });
+    gtag('event', 'change_sortBy', {
+      'event_category': 'sort products',
+      'event_label': 'changes sorting of products',
       'value': 1,
       'debug_mode': true
     });
@@ -193,7 +199,7 @@ shoppingCartBtn.addEventListener("click", function () {
     // renderShoppingCart();
     showShoppingCart();
 
-    gtag('event', 'show-cart', {
+    gtag('event', 'show_cart', {
       'event_category': 'show cart',
       'event_label': 'view shopping cart',
       'value': 1,
