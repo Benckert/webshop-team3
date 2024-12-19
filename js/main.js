@@ -21,6 +21,19 @@ let compare;
 let allProducts;
 let cart = [];
 
+function loadLocalStorage() {
+  const savedCart = localStorage.getItem("shoppingCart");
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    renderShoppingCart();
+    shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
+  }
+}
+
+function saveLocalStorage() {
+  localStorage.setItem("shoppingCart", JSON.stringify(cart));
+}
+
 async function loadProducts() {
   allProducts = await getData();
   if (allProducts) {
@@ -137,10 +150,7 @@ productSection.addEventListener("click", function (e) {
     const index = parseInt(e.target.id.slice(8));
     const productToAdd = allProducts[index - 1];
 
-    console.log(productToAdd)
-
     const productData = cart.find(product => product.id === Number(index));
-    console.log("produkt", productData)
 
     if (productData) {
       productToAdd.quantity++;
@@ -148,9 +158,9 @@ productSection.addEventListener("click", function (e) {
       productToAdd.quantity = 1;
       cart.push(productToAdd);
     }
-    console.log(cart)
     shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
-    renderShoppingCart();
+    renderShoppingCart()
+    saveLocalStorage();
 
     // gtag('event', 'add_to_cart', {
     //   'event_category': 'add to cart',
@@ -173,11 +183,10 @@ function updateBasket(updateProduct) {
       if (e.target.textContent == "+") {
         const productId = btn.getAttribute('data-id');
         const productData = cart.find(product => product.id === Number(productId));
-        console.log(productId)
-        console.log(productData)
         productData.quantity++;
         shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
         renderShoppingCart()
+        saveLocalStorage();
       }
       if (e.target.textContent == "-") {
         const productId = btn.getAttribute('data-id');
@@ -188,15 +197,14 @@ function updateBasket(updateProduct) {
           cart.splice(cart.indexOf(productData), 1)
         }
         renderShoppingCart()
+        saveLocalStorage();
       }
-      console.log(cart)
     })
   });
 }
 
 shoppingCartBtn.addEventListener("click", function () {
   if (cart.length > 0) {
-    // renderShoppingCart();
     showShoppingCart();
 
     gtag('event', 'show_cart', {
@@ -212,14 +220,18 @@ shoppingCart.addEventListener("click", function (e) {
   if (e.target.id === "close-cart") {
     hideShoppingCart();
   }
-})
+});
 
 checkoutBtn.addEventListener('click', function () {
   shoppingCart.style.display = "none";
   boughtSection.style.display = "flex";
   document.querySelector(".shopping_cart_section").style.display = "none";
-  cart = []
+  cart = [];
   shoppingCartQuantity.textContent = 0;
+
+  renderShoppingCart();
+  saveLocalStorage();
+
   console.log(cart)
 
   gtag('event', 'checkout', {
@@ -234,4 +246,5 @@ backToWebshop.addEventListener('click', function () {
   boughtSection.style.display = "none";
 })
 
+loadLocalStorage();
 loadProducts();
