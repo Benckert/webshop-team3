@@ -116,10 +116,13 @@ categoryUl.addEventListener("click", function (e) {
 });
 
 sortBy.addEventListener("change", function () {
-  compare = sortBy.value === "highest" ? (a, b) => b.price - a.price
-    : sortBy.value === "lowest" ? (a, b) => a.price - b.price
-      : () => NaN;
+  compare = sortBy.value === "lowest-price" ? (a, b) => a.price - b.price
+          : sortBy.value === "highest-price" ? (a, b) => b.price - a.price
+          : sortBy.value === "lowest-rating" ? (a, b) => a.rating.rate - b.rating.rate
+          : sortBy.value === "highest-rating" ? (a, b) => b.rating.rate - a.rating.rate
+          : (a, b) => a.id - b.id
 
+  console.log(compare)
   renderProducts();
 });
 
