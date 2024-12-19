@@ -136,6 +136,13 @@ sortBy.addEventListener("change", function () {
           : (a, b) => a.id - b.id
 
   renderProducts();
+
+  gtag('event', 'change_sortBy', {
+    'event_category': 'sort products',
+    'event_label': 'changes sorting of products',
+    'value': 1,
+    'debug_mode': true
+  });
 });
 
 productSection.addEventListener("click", function (e) {
@@ -154,6 +161,19 @@ productSection.addEventListener("click", function (e) {
     shoppingCartQuantity.textContent = cart.reduce((sum, product) => sum + product.quantity, 0);
     renderShoppingCart()
     saveLocalStorage();
+
+    // gtag('event', 'add_to_cart', {
+    //   'event_category': 'add to cart',
+    //   'event_label': 'add product to cart',
+    //   'value': 1,
+    //   'debug_mode': true
+    // });
+    gtag('event', 'change_sortBy', {
+      'event_category': 'sort products',
+      'event_label': 'changes sorting of products',
+      'value': 1,
+      'debug_mode': true
+    });
   }
 });
 
@@ -186,6 +206,13 @@ function updateBasket(updateProduct) {
 shoppingCartBtn.addEventListener("click", function () {
   if (cart.length > 0) {
     showShoppingCart();
+
+    gtag('event', 'show_cart', {
+      'event_category': 'show cart',
+      'event_label': 'view shopping cart',
+      'value': 1,
+      'debug_mode': true
+    });
   }
 });
 
@@ -201,9 +228,19 @@ checkoutBtn.addEventListener('click', function () {
   document.querySelector(".shopping_cart_section").style.display = "none";
   cart = [];
   shoppingCartQuantity.textContent = 0;
+
   renderShoppingCart();
   saveLocalStorage();
-});
+
+  console.log(cart)
+
+  gtag('event', 'checkout', {
+    'event_category': 'purchase',
+    'event_label': 'purschase products',
+    'value': 1,
+    'debug_mode': true
+  });
+})
 
 backToWebshop.addEventListener('click', function () {
   boughtSection.style.display = "none";
