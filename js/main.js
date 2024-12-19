@@ -122,8 +122,14 @@ sortBy.addEventListener("change", function () {
           : sortBy.value === "highest-rating" ? (a, b) => b.rating.rate - a.rating.rate
           : (a, b) => a.id - b.id
 
-  console.log(compare)
   renderProducts();
+
+  gtag('event', 'change_sortBy', {
+    'event_category': 'sort products',
+    'event_label': 'changes sorting of products',
+    'value': 1,
+    'debug_mode': true
+  });
 });
 
 productSection.addEventListener("click", function (e) {
